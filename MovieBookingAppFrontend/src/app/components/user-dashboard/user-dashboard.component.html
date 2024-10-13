@@ -1,0 +1,69 @@
+<div class="container mt-3">
+    <h1 class="text-center my-4">Movie List</h1>
+
+    <!-- Search Movie Section (Left-aligned) -->
+    <div class="search-section mb-4">
+        <div class="input-group">
+            <input [(ngModel)]="movieName" class="form-control" placeholder="Search by Movie Name" />
+            <button class="btn btn-primary" (click)="searchMovie()">Search</button>
+        </div>
+    </div>
+
+    <!-- Search Result -->
+    <div *ngIf="searchResult" class="alert alert-info">
+        <h2>Search Result:</h2>
+        <p>{{ searchResult.title }} - {{ searchResult.genre }}</p>
+        <button class="btn btn-warning" (click)="openModal(searchResult.title, 'The Grand Theatre')">Book</button>
+    </div>
+
+    <!-- Movie Cards -->
+    <div class="row movie-cards">
+        <div class="col-12 col-md-4 mb-4" *ngFor="let movie of movies">
+            <div class="card movie-card shadow h-100">
+                <img src="assets/movie.jpg" class="card-img-top" alt="{{ movie.title }}" />
+                <div class="card-body">
+                    <h4 class="card-title">{{ movie.title }}</h4>
+                    <p class="card-text"><strong>Genre:</strong> {{ movie.genre }}</p>
+                    <p class="card-text"><strong>Rating:</strong> {{ movie.rating }}</p>
+                    <p class="card-text"><strong>Release Date:</strong> {{ movie.releaseDate | date }}</p>
+                    <p class="card-text"><strong>Theatre:</strong> {{ movie.theatre }}</p>
+                    <p class="card-text"><strong>Tickets Available:</strong> {{ movie.ticketsAvailable }}</p>
+                    <button class="btn btn-primary" (click)="openModal(movie.title, movie.theatre)">Book</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Backdrop -->
+    <div class="modal-backdrop" *ngIf="isModalOpen"></div>
+
+    <!-- Modal -->
+    <div class="modal" *ngIf="isModalOpen">
+        <div class="modal-content">
+            <span class="close" (click)="closeModal()">&times;</span>
+            <h2>Book Ticket</h2>
+            <p>Movie: <strong>{{ selectedMovie }}</strong></p>
+            <div class="mb-3">
+                <label for="seatNumber">Seat Number:</label>
+                <input id="seatNumber" [(ngModel)]="seatNumber" class="form-control" placeholder="Enter seat number" />
+            </div>
+            <div class="mb-3">
+                <label for="theatre">Theatre:</label>
+                <input id="theatre" [(ngModel)]="theatre" class="form-control" placeholder="Enter theatre" />
+            </div>
+            <button class="btn btn-success" (click)="bookTicket()">Book</button>
+            <div *ngIf="ticketStatus" class="alert alert-success mt-2">{{ ticketStatus }}</div>
+        </div>
+    </div>
+
+    <div class="cancel-section card p-4 shadow">
+        <h2 class="mt-2">Cancel Ticket</h2>
+        <div class="input-group mb-3">
+            <input [(ngModel)]="selectedMovie" class="form-control" placeholder="Movie Name" />
+        </div>
+        <div class="input-group mb-3">
+            <input [(ngModel)]="seatNumber" class="form-control" placeholder="Seat Number" />
+        </div>
+        <button class="btn btn-danger w-100" (click)="cancelTicket(seatNumber, selectedMovie)">Cancel Ticket</button>
+    </div>
+</div>

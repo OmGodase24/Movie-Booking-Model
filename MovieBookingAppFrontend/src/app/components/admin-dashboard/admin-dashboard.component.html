@@ -1,0 +1,70 @@
+<!-- Button to open modal for adding a new movie -->
+<button class="btn btn-success mt-3 mb-3" (click)="openMovieModal()">Add Movie</button>
+
+<div class="container mt-3">
+    <div class="row movie-cards">
+        <div class="col-12 col-md-4" *ngFor="let movie of movies">
+            <div class="card movie-card shadow">
+                <img src="assets/movie.jpg" class="card-img-top" alt="Movie Image">
+                <div class="card-body">
+                    <h4 class="card-title">{{ movie.title }}</h4>
+                    <p class="card-text"><strong>Genre:</strong> {{ movie.genre }}</p>
+                    <p class="card-text"><strong>Rating:</strong> {{ movie.rating }}</p>
+                    <p class="card-text"><strong>Release Date:</strong> {{ movie.releaseDate | date }}</p>
+                    <p class="card-text"><strong>Theatre:</strong> {{ movie.theatre }}</p>
+                    <p class="card-text"><strong>Tickets Available:</strong> {{ movie.ticketsAvailable }}</p>
+                    
+                    <!-- Buttons for editing and deleting a movie -->
+                    <div class="button-group">
+                        <button class="btn btn-warning" (click)="openMovieModal(movie)">Edit</button>
+                        <button class="btn btn-danger" (click)="deleteMovie(movie._id)" *ngIf="movie._id">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Movie Modal -->
+<div class="modal fade" id="movieModal" tabindex="-1" aria-labelledby="movieModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ isEdit ? 'Edit Movie' : 'Add Movie' }}</h5>
+                <button type="button" class="btn-close" (click)="closeMovieModal()" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" [(ngModel)]="movieForm.title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="genre" class="form-label">Genre</label>
+                        <input type="text" class="form-control" id="genre" [(ngModel)]="movieForm.genre" name="genre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="rating" class="form-label">Rating</label>
+                        <input type="number" class="form-control" id="rating" [(ngModel)]="movieForm.rating" name="rating" min="0" max="10" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="releaseDate" class="form-label">Release Date</label>
+                        <input type="date" class="form-control" id="releaseDate" [(ngModel)]="movieForm.releaseDate" name="releaseDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="theatre" class="form-label">Theatre</label>
+                        <input type="text" class="form-control" id="theatre" [(ngModel)]="movieForm.theatre" name="theatre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ticketsAvailable" class="form-label">Tickets Available</label>
+                        <input type="number" class="form-control" id="ticketsAvailable" [(ngModel)]="movieForm.ticketsAvailable" name="ticketsAvailable" min="0" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeMovieModal()">Close</button>
+                <button type="button" class="btn btn-primary" (click)="saveMovie()">{{ isEdit ? 'Update Movie' : 'Add Movie' }}</button>
+            </div>
+        </div>
+    </div>
+</div>

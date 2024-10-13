@@ -1,0 +1,46 @@
+<div class="row justify-content-center mt-3">
+    <div class="col-12 col-md-4 mt-3">
+        <div class="card shadow">
+            <div class="container text-center">
+                <img src="/assets/password.png" style="width: 100px;" alt="loginImage" class="img-fluid mt-3">
+            </div>
+            <h2 class="text-center">Login</h2>
+            <div class="card-body">
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group mb-3">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" formControlName="email"
+                            placeholder="Enter your email" />
+                        <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+                            <small class="text-danger" *ngIf="loginForm.get('email')?.errors?.['required']">
+                                Email is required.
+                            </small>
+                            <small class="text-danger" *ngIf="loginForm.get('email')?.errors?.['email']">
+                                Please enter a valid email address.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" class="form-control" formControlName="password"
+                            placeholder="Enter your password" />
+                        <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+                            <small class="text-danger" *ngIf="loginForm.get('password')?.errors?.['required']">
+                                Password is required.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div *ngIf="errorMessage" class="alert alert-danger">
+                        {{ errorMessage }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Login</button>
+                    <p class="mt-2">Don't have an account? <a routerLink="/register">Create one</a></p>
+                    <p class="mt-2">Forget Password? <a routerLink="/forget-password">reset</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
